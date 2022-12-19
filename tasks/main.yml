@@ -1,0 +1,6 @@
+---
+- name: Install aptly
+  include: setup.yml
+
+- name: Configure aptly
+  include: config.yml

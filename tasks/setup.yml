@@ -1,0 +1,26 @@
+---
+- name: Install aptly from repository
+  apt:
+    name: aptly
+    update_cache: True
+    cache_valid_time: "{{ apt_cache_valid_time }}"
+
+- name: Create aptly group
+  group:
+    name: "{{ aptly_group }}"
+
+- name: Create aptly user
+  user:
+    name: "{{ aptly_user }}"
+    group: "{{ aptly_user }}"
+    home: "{{ aptly_repo_home }}"
+    create_home: True
+    shell: /bin/bash
+
+- name: Ensure ownership of repo home
+  file:
+    state: directory
+    path: "{{ aptly_repo_home }}"
+    owner: "{{ aptly_user }}"
+    group: "{{ aptly_group }}"
+    mode: 0755

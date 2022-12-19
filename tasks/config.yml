@@ -1,0 +1,14 @@
+---
+- name: Create initial aptly config
+  command:
+    cmd: "aptly config show"
+    chdir: "{{ aptly_repo_home }}"
+    creates: "{{ aptly_repo_home }}/.aptly.conf"
+  become_user: "{{ aptly_user }}"
+
+- name: "Create repositories"
+  include: repo.yml
+  with_dict: "{{ aptly_repositories | default({}) }}"
+
+#- name: Create GPG key for aptly user
+  

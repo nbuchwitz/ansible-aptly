@@ -1,0 +1,5 @@
+aptly_user: aptly
+aptly_group: aptly
+aptly_repo_home: /var/aptly
+
+aptly_gpg_key_id: ''

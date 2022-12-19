@@ -1,0 +1,24 @@
+- name: "Check if repository {{ item.key }} is already configured"
+  command:
+    argv:
+      - aptly
+      - repo
+      - show
+      - "{{ item.key }}"
+  become_user: "{{ aptly_user }}"
+  register: repo_check
+  failed_when: false
+  changed_when: false
+
+- name: "Create repository {{ item.key }}"
+  command:
+    argv:
+      - aptly
+      - repo
+      - create
+      - "-distribution={{ item.value.distribution | default('') }}"
+      - "-architectures={{ item.value.architectures | default('all') }}"
+      - "-component={{ item.value.component | default('main') }}"
+      - "{{ item.key }}"
+  become_user: "{{ aptly_user }}"
+  when: repo_check.rc > 0
